@@ -1,28 +1,22 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Raketa\BackendTestTask\Repository;
 
 use Exception;
 use Psr\Log\LoggerInterface;
 use Raketa\BackendTestTask\Domain\Cart;
-use Raketa\BackendTestTask\Infrastructure\ConnectorFacade;
+use Raketa\BackendTestTask\Infrastructure\Connector;
+use Raketa\BackendTestTask\Infrastructure\ConnectorFactory;
 
-class CartManager extends ConnectorFacade
+class CartManager
 {
-    // Если нам не будет проставлена зависимость, то мы упадём при первом чтении. Предполагаю, что DI настроен.
-    public LoggerInterface $logger;
-
-    public function __construct(string $host, int $port, string $password)
+    public function __construct(
+        private readonly Connector       $connector,
+        private readonly LoggerInterface $logger,
+    )
     {
-        parent::__construct($host, $port, $password, 1);
-        parent::build();
-    }
-
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
     }
 
     /**
@@ -43,6 +37,7 @@ class CartManager extends ConnectorFacade
     public function getCart()
     {
         try {
+            // не забота менеджера знать о сессиях
             return $this->connector->get(session_id());
         } catch (Exception $e) {
             $this->logger->error('Error');
