@@ -13,7 +13,7 @@ class CartManager extends ConnectorFacade
 {
     public $logger;
 
-    public function __construct($host, $port, $password)
+    public function __construct(string $host, int $port, string $password)
     {
         parent::__construct($host, $port, $password, 1);
         parent::build();
