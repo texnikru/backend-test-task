@@ -6,12 +6,12 @@ namespace Raketa\BackendTestTask\Infrastructure;
 
 use Throwable;
 
-class ConnectorException implements Throwable
+readonly class ConnectorException implements Throwable
 {
     public function __construct(
-        private readonly string     $message,
-        private readonly int        $code,
-        private readonly ?Throwable $previous,
+        private string     $message,
+        private int        $code,
+        private ?Throwable $previous,
     ) { }
 
     public function getMessage(): string

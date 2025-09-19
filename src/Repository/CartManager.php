@@ -10,11 +10,11 @@ use Raketa\BackendTestTask\Domain\Cart;
 use Raketa\BackendTestTask\Infrastructure\Connector;
 use Raketa\BackendTestTask\Infrastructure\ConnectorFactory;
 
-class CartManager
+readonly class CartManager
 {
     public function __construct(
-        private readonly Connector       $connector,
-        private readonly LoggerInterface $logger,
+        private Connector       $connector,
+        private LoggerInterface $logger,
     )
     {
     }

@@ -7,10 +7,10 @@ namespace Raketa\BackendTestTask\Repository;
 use Doctrine\DBAL\Connection;
 use Raketa\BackendTestTask\Repository\Entity\Product;
 
-class ProductRepository
+readonly class ProductRepository
 {
     public function __construct(
-        private readonly Connection $connection,
+        private Connection $connection,
     )
     {
     }

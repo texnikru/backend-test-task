@@ -8,10 +8,10 @@ use Raketa\BackendTestTask\Domain\Cart;
 use Redis;
 use RedisException;
 
-class Connector
+readonly class Connector
 {
     public function __construct(
-        private readonly Redis $redis,
+        private Redis $redis,
     )
     {
     }
