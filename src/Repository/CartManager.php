@@ -11,7 +11,8 @@ use Raketa\BackendTestTask\Infrastructure\ConnectorFacade;
 
 class CartManager extends ConnectorFacade
 {
-    public $logger;
+    // Если нам не будет проставлена зависимость, то мы упадём при первом чтении. Предполагаю, что DI настроен.
+    public LoggerInterface $logger;
 
     public function __construct(string $host, int $port, string $password)
     {
