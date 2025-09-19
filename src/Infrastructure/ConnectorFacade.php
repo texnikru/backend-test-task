@@ -9,19 +9,15 @@ use RedisException;
 
 class ConnectorFacade
 {
-    public string $host;
-    public int $port = 6379;
-    public ?string $password = null;
-    public ?int $dbindex = null;
+    protected Connector $connector;
 
-    public $connector;
-
-    public function __construct($host, $port, $password, $dbindex)
+    public function __construct(
+        private string  $host,
+        private int     $port = 6379,
+        private ?string $password = null,
+        private ?int    $dbindex = null,
+    )
     {
-        $this->host = $host;
-        $this->port = $port;
-        $this->password = $password;
-        $this->dbindex = $dbindex;
     }
 
     protected function build(): void

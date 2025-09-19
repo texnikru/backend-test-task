@@ -9,11 +9,10 @@ use Raketa\BackendTestTask\Repository\Entity\Product;
 
 class ProductRepository
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(
+        private readonly Connection $connection,
+    )
     {
-        $this->connection = $connection;
     }
 
     public function getByUuid(string $uuid): Product

@@ -10,11 +10,10 @@ use RedisException;
 
 class Connector
 {
-    private Redis $redis;
-
-    public function __construct($redis)
+    public function __construct(
+        private readonly Redis $redis,
+    )
     {
-        return $this->redis = $redis;
     }
 
     /**
