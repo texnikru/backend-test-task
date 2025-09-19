@@ -34,6 +34,7 @@ readonly class GetCartController
                 ->withHeader('Content-Type', 'application/json; charset=utf-8')
                 ->withStatus(404);
         } else {
+            // Корзина найдена, но вернётся с 404?
             $response->getBody()->write(
                 json_encode(
                     $this->cartView->toArray($cart),

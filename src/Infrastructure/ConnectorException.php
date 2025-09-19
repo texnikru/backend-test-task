@@ -4,12 +4,14 @@ declare(strict_types = 1);
 
 namespace Raketa\BackendTestTask\Infrastructure;
 
-class ConnectorException implements \Throwable
+use Throwable;
+
+class ConnectorException implements Throwable
 {
     public function __construct(
-        private readonly string      $message,
-        private readonly int         $code,
-        private readonly ?\Throwable $previous,
+        private readonly string     $message,
+        private readonly int        $code,
+        private readonly ?Throwable $previous,
     ) { }
 
     public function getMessage(): string
@@ -24,7 +26,7 @@ class ConnectorException implements \Throwable
 
     public function getFile(): string
     {
-        return $this->previous->getFile();
+        return $this->previous->getFile(); // а предыдущее есть?
     }
 
     public function getLine(): int
@@ -42,7 +44,7 @@ class ConnectorException implements \Throwable
         return $this->previous->getTraceAsString();
     }
 
-    public function getPrevious(): ?\Throwable
+    public function getPrevious(): ?Throwable
     {
         return $this->previous;
     }

@@ -31,15 +31,17 @@ readonly class CartView
         ];
 
         $total = 0;
-        $data['items'] = [];
+        $data['items'] = []; // Можно пустой массив задать в структуре выше
         foreach ($cart->getItems() as $item) {
             $total += $item->getPrice() * $item->getQuantity();
+            // Плохо ходить за товаром по-штучно. Нужно обращаться со списком товаров
+            // А если товара нет? Но такого быть не может?!
             $product = $this->productRepository->getByUuid($item->getProductUuid());
 
             $data['items'][] = [
                 'uuid' => $item->getUuid(),
                 'price' => $item->getPrice(),
-                'total' => $total,
+                'total' => $total, // Сумма строки путается с ценой всей корзины
                 'quantity' => $item->getQuantity(),
                 'product' => [
                     'id' => $product->getId(),

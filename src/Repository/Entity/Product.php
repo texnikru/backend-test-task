@@ -8,7 +8,7 @@ readonly class Product
 {
     public function __construct(
         private int $id,
-        private string $uuid,
+        private string $uuid, // Зачем 2 идентификатора товара?
         private bool $isActive,
         private string $category,
         private string $name,

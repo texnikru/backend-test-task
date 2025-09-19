@@ -17,7 +17,7 @@ class ConnectorFactory
     )
     {
         $redis = new Redis();
-        $isConnected = $redis->connect($host, $port);
+        $isConnected = $redis->connect($host, $port); // @todo проверку
 
         $redis->auth($password);
         $redis->select($dbindex);

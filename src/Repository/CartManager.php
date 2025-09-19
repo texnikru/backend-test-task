@@ -25,9 +25,9 @@ class CartManager
     public function saveCart(Cart $cart)
     {
         try {
-            $this->connector->set($cart, session_id());
+            $this->connector->set($cart, session_id()); // сессию принести в менеджере
         } catch (Exception $e) {
-            $this->logger->error('Error');
+            $this->logger->error('Error'); // Ошибка ничего не поясняет, исключение не используется для разъяснения
         }
     }
 
@@ -38,11 +38,11 @@ class CartManager
     {
         try {
             // не забота менеджера знать о сессиях
-            return $this->connector->get(session_id());
+            return $this->connector->get(session_id()); // сессию принести в менеджере
         } catch (Exception $e) {
-            $this->logger->error('Error');
+            $this->logger->error('Error'); // Ошибка ничего не поясняет
         }
 
-        return new Cart(session_id(), []);
+        return new Cart(session_id(), []); // сессию принести в менеджере
     }
 }

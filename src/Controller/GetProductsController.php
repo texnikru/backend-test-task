@@ -19,7 +19,7 @@ readonly class GetProductsController
     {
         $response = new JsonResponse();
 
-        $rawRequest = json_decode($request->getBody()->getContents(), true);
+        $rawRequest = json_decode($request->getBody()->getContents(), true); // JSON_THROW_ON_ERROR
 
         $response->getBody()->write(
             json_encode(

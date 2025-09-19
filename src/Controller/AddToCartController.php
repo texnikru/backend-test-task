@@ -24,7 +24,12 @@ readonly class AddToCartController
         $rawRequest = json_decode($request->getBody()->getContents(), true);
         $product = $this->productRepository->getByUuid($rawRequest['productUuid']);
 
+        if (empty($product)) {
+            throw new \Exception('404 or something');
+        }
+
         $cart = $this->cartManager->getCart();
+        // Строку добавили, а кто сохранил?
         $cart->addItem(new CartItem(
             Uuid::uuid4()->toString(),
             $product->getUuid(),
@@ -32,6 +37,7 @@ readonly class AddToCartController
             $rawRequest['quantity'],
         ));
 
+        // Лучше быть JsonResponse::withBody
         $response = new JsonResponse();
         $response->getBody()->write(
             json_encode(

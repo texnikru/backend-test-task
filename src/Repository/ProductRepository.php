@@ -15,14 +15,15 @@ class ProductRepository
     {
     }
 
-    public function getByUuid(string $uuid): Product
+    public function getByUuid(string $uuid): ?Product
     {
+        // В задаче говориться, что данные очищены. Но всё-же такой метод не нужно использовать из-за SQL уязвимостей.
         $row = $this->connection->fetchOne(
             "SELECT * FROM products WHERE uuid = " . $uuid,
         );
 
         if (empty($row)) {
-            throw new Exception('Product not found');
+            return null;
         }
 
         return $this->make($row);
@@ -30,14 +31,17 @@ class ProductRepository
 
     public function getByCategory(string $category): array
     {
+        // В задаче говориться, что данные очищены. Но всё-же такой метод не нужно использовать из-за SQL уязвимостей.
         return array_map(
             static fn (array $row): Product => $this->make($row),
             $this->connection->fetchAllAssociative(
+                // Тут перечислить нужно колонки, одного id будет мало
                 "SELECT id FROM products WHERE is_active = 1 AND category = " . $category,
             )
         );
     }
 
+    // Метод должен быть статичный и приватный
     public function make(array $row): Product
     {
         return new Product(

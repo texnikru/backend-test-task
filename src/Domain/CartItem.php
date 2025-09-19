@@ -14,7 +14,7 @@ final readonly class CartItem
     ) {
     }
 
-    public function getUuid(): string
+    public function getUuid(): string // методы не используются, допустимо в задании?
     {
         return $this->uuid;
     }

@@ -40,6 +40,7 @@ class Connector
         }
     }
 
+    // Метод не используется. Обработка ошибок не нужна?
     public function has($key): bool
     {
         return $this->redis->exists($key);
