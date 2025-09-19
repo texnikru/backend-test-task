@@ -12,10 +12,10 @@ class ConnectorFacade
     protected Connector $connector;
 
     public function __construct(
-        private string  $host,
-        private int     $port = 6379,
-        private ?string $password = null,
-        private ?int    $dbindex = null,
+        private readonly string $host,
+        private readonly int    $port,
+        private readonly string $password,
+        private readonly int    $dbindex,
     )
     {
     }
