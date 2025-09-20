@@ -20,7 +20,7 @@ readonly class RedisAwareKeyValueStorage implements KeyValueStorageInterface
     }
 
     /**
-     * @throws ConnectorException
+     * @inheritDoc
      */
     public function get(string $key): string
     {
@@ -35,7 +35,7 @@ readonly class RedisAwareKeyValueStorage implements KeyValueStorageInterface
     }
 
     /**
-     * @throws ConnectorException
+     * @inheritDoc
      */
     public function set(string $key, string $value): void
     {

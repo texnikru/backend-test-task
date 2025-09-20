@@ -18,6 +18,9 @@ readonly class DbalProductRepository implements ProductRepositoryInterface
     {
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getByUuid(UuidInterface $uuid): ?Product
     {
         $row = $this->connection->fetchOne(
@@ -34,6 +37,9 @@ readonly class DbalProductRepository implements ProductRepositoryInterface
         return self::make($row);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getByCategory(string $category): array
     {
         return array_map(

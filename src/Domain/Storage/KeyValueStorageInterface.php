@@ -4,6 +4,9 @@ namespace Raketa\BackendTestTask\Domain\Storage;
 
 interface KeyValueStorageInterface
 {
+    /**
+     * @throws ConnectorException
+     */
     public function get(string $key): string;
 
     /**
