@@ -30,7 +30,6 @@ readonly class GetProductsController
         );
 
         return $response
-            ->withHeader('Content-Type', 'application/json; charset=utf-8')
             ->withStatus(200);
     }
 }

@@ -32,7 +32,6 @@ readonly class GetCartController
             );
 
             return $response
-                ->withHeader('Content-Type', 'application/json; charset=utf-8')
                 ->withStatus(404);
         } else {
             // Корзина найдена, но вернётся с 404?
@@ -45,7 +44,6 @@ readonly class GetCartController
         }
 
         return $response
-            ->withHeader('Content-Type', 'application/json; charset=utf-8')
             ->withStatus(404);
     }
 }

@@ -13,6 +13,13 @@ use Psr\Http\Message\StreamInterface;
  */
 final class JsonResponse implements ResponseInterface
 {
+    public function __construct(
+        string $contentType = 'application/json; charset=utf-8',
+    )
+    {
+        $this->withHeader('Content-Type', $contentType);
+    }
+
     public function getProtocolVersion(): string
     {
         // TODO: Implement getProtocolVersion() method.
