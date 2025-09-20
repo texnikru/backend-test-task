@@ -7,6 +7,7 @@ namespace Raketa\BackendTestTask\Repository;
 use Doctrine\DBAL\Connection;
 use Raketa\BackendTestTask\Repository\Entity\Product;
 
+// интерфейс, этот обозвать DbalProductRepository
 readonly class ProductRepository
 {
     public function __construct(
@@ -17,42 +18,45 @@ readonly class ProductRepository
 
     public function getByUuid(string $uuid): ?Product
     {
-        // В задаче говориться, что данные очищены. Но всё-же такой метод не нужно использовать из-за SQL уязвимостей.
         $row = $this->connection->fetchOne(
-            "SELECT * FROM products WHERE uuid = " . $uuid,
+            "SELECT id, uuid, is_active, category, name, description, thumbnail, price
+                    FROM products
+                    WHERE uuid = :uuid",
+            ['uuid' => $uuid]
         );
 
         if (empty($row)) {
             return null;
         }
 
-        return $this->make($row);
+        return self::make($row);
     }
 
     public function getByCategory(string $category): array
     {
-        // В задаче говориться, что данные очищены. Но всё-же такой метод не нужно использовать из-за SQL уязвимостей.
         return array_map(
-            static fn (array $row): Product => $this->make($row),
+            static fn (array $row): Product => self::make($row),
             $this->connection->fetchAllAssociative(
                 // Тут перечислить нужно колонки, одного id будет мало
-                "SELECT id FROM products WHERE is_active = 1 AND category = " . $category,
+                "SELECT id, uuid, is_active, category, name, description, thumbnail, price
+                        FROM products
+                        WHERE is_active = 1 AND category = :category",
+                ['category' => $category]
             )
         );
     }
 
-    // Метод должен быть статичный и приватный
-    public function make(array $row): Product
+    private static function make(array $row): Product
     {
         return new Product(
-            $row['id'],
+            (int)$row['id'],
             $row['uuid'],
-            $row['is_active'],
+            (bool)$row['is_active'],
             $row['category'],
             $row['name'],
             $row['description'],
             $row['thumbnail'],
-            $row['price'],
+            (float)$row['price'],
         );
     }
 }
