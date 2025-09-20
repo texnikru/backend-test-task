@@ -2,8 +2,8 @@
 
 namespace Raketa\BackendTestTask\Infrastructure\Http\View;
 
+use Raketa\BackendTestTask\Domain\Model\Product;
 use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
-use Raketa\BackendTestTask\Infrastructure\Repository\Entity\Product;
 
 readonly class ProductsView
 {

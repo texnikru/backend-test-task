@@ -5,8 +5,8 @@ declare(strict_types = 1);
 namespace Raketa\BackendTestTask\Infrastructure\Repository;
 
 use Doctrine\DBAL\Connection;
+use Raketa\BackendTestTask\Domain\Model\Product;
 use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
-use Raketa\BackendTestTask\Infrastructure\Repository\Entity\Product;
 use Ramsey\Uuid\Lazy\LazyUuidFromString;
 use Ramsey\Uuid\UuidInterface;
 
