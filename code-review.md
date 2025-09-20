@@ -45,6 +45,23 @@
 2. src/Infrastructure/Connector.php#L28 Текст сообщения об ошибке не поясняет что случилось
 3. В сервис проситься проверка доступности соединения. 
 
+#### src/Controller/AddToCartController.php
+
+1. src/Controller/AddToCartController.php#L25 Может отсутствовать ключ `productUuid`
+2. src/Controller/AddToCartController.php#L30 Не факт, то товар был найден
+3. src/Controller/AddToCartController.php#L22 Может отсутствовать ключ `quantity`. Можно купить отрицательное количество и магазин будет мне должен?
+3. src/Controller/AddToCartController.php#L28 Отсутствует сохранение изменённой корзины 
+
+#### src/Controller/GetCartController.php
+
+1. src/Controller/GetCartController.php#L45 Сюда можем прийти только если операция была успешно выполнена и 404 код введёт клиента в заблуждение. Код 200. 
+2. src/Controller/GetCartController.php#L36 Уже есть ранний выход, можно else вытащить из блока
+
+#### src/Controller/GetProductsController.php
+
+1. src/Controller/GetProductsController.php#L18 аргумент `$request` не используется
+2. src/Controller/GetProductsController.php#L26 Значение может быть не задано, ожидается string
+
 #### migrations/schema.init.sql
 
 1. migrations/schema.init.sql#L4 Нет индекса по колонкам `uuid` и `category` хотя они используется для фильтрации. 
