@@ -12,6 +12,7 @@ use Raketa\BackendTestTask\Domain\Storage\KeyValueStorageInterface;
 readonly class CartManager
 {
     public function __construct(
+        private SessionManager           $sessionManager,
         private KeyValueStorageInterface $storage,
         private LoggerInterface          $logger,
     )
@@ -22,7 +23,7 @@ readonly class CartManager
     {
         try {
             $serializedCart = serialize($cart);
-            $this->storage->set($serializedCart, $this->getSession());
+            $this->storage->set($serializedCart, $this->sessionManager->getSessionId());
         } catch (Exception $e) {
             $this->logger->error('Error ' . $e->getMessage());
         }
@@ -31,7 +32,7 @@ readonly class CartManager
     public function getCart(): ?Cart
     {
         try {
-            $serializedCart = $this->storage->get($this->getSession());
+            $serializedCart = $this->storage->get($this->sessionManager->getSessionId());
             $cart = unserialize($serializedCart);
 
             return $cart;
@@ -40,11 +41,5 @@ readonly class CartManager
         }
 
         return null;
-    }
-
-    // сессию принести в менеджере, пока проблему вынес
-    private function getSession(): string
-    {
-        return session_id();
     }
 }
