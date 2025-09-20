@@ -20,11 +20,7 @@ readonly class CartView
             'uuid' => $cart->getUuid(),
             'customer' => [
                 'id' => $cart->getCustomer()->getId(),
-                'name' => implode(' ', [
-                    $cart->getCustomer()->getLastName(),
-                    $cart->getCustomer()->getFirstName(),
-                    $cart->getCustomer()->getMiddleName(),
-                ]),
+                'name' => $cart->getCustomer()->getFullName(),
                 'email' => $cart->getCustomer()->getEmail(),
             ],
             'payment_method' => $cart->getPaymentMethod(),
