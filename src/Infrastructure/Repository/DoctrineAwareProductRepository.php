@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace Raketa\BackendTestTask\Infrastructure\Repository;
 
 use Doctrine\DBAL\ArrayParameterType;
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Connection as DbalConneciton;
 use Raketa\BackendTestTask\Domain\Model\Product;
 use Raketa\BackendTestTask\Domain\Model\ProductCategory;
 use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
 use Ramsey\Uuid\Lazy\LazyUuidFromString;
 use Ramsey\Uuid\UuidInterface;
 
-readonly class DbalProductRepository implements ProductRepositoryInterface
+readonly class DoctrineAwareProductRepository implements ProductRepositoryInterface
 {
     public function __construct(
-        private Connection $connection,
+        private DbalConneciton $connection,
     )
     {
     }
