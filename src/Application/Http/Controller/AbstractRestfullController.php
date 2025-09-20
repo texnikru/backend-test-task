@@ -6,9 +6,6 @@ namespace Raketa\BackendTestTask\Application\Http\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use Raketa\BackendTestTask\Application\Http\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 readonly abstract class AbstractRestfullController
 {
