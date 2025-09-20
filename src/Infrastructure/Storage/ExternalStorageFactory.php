@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Raketa\BackendTestTask\Infrastructure\Storage;
 
+use Psr\Log\LoggerInterface;
 use Raketa\BackendTestTask\Domain\Storage\ConnectorException;
 use Redis;
 use RedisException;
@@ -15,10 +16,11 @@ class ExternalStorageFactory
      * @throws ConnectorException
      */
     public static function buildRedisStorage(
-        string $host,
-        int    $port,
-        string $password,
-        int    $dbIndex,
+        string          $host,
+        int             $port,
+        string          $password,
+        int             $dbIndex,
+        LoggerInterface $logger,
     )
     {
         $redis = new Redis();
@@ -31,13 +33,19 @@ class ExternalStorageFactory
             $isOk = $isOk && false !== $redis->auth($password);
             $isOk = $isOk && false !== $redis->select($dbIndex);
         } catch (RedisException $e) {
-            throw new ConnectorException('Connector error: ' . $e->getMessage(), $e->getCode(), $e);
+            $exception = new ConnectorException('Connector error: ' . $e->getMessage(), $e->getCode(), $e);
+            $logger->error($exception->getMessage(), ['exception' => $exception]);
+
+            throw $exception;
         }
 
         if (!$isOk) {
-            throw new RuntimeException('Redis connection not established');
+            $exception = new RuntimeException('Redis connection not established');
+            $logger->error($exception->getMessage(), ['exception' => $exception]);
+
+            throw $exception;
         }
 
-        return new RedisAwareKeyValueStorage($redis);
+        return new RedisAwareKeyValueStorage($redis, $logger);
     }
 }
