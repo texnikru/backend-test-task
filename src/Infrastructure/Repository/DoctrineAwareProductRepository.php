@@ -9,7 +9,7 @@ use Doctrine\DBAL\Connection as DbalConneciton;
 use Raketa\BackendTestTask\Domain\Model\Product;
 use Raketa\BackendTestTask\Domain\Model\ProductCategory;
 use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
-use Ramsey\Uuid\Lazy\LazyUuidFromString;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 readonly class DoctrineAwareProductRepository implements ProductRepositoryInterface
@@ -60,7 +60,7 @@ readonly class DoctrineAwareProductRepository implements ProductRepositoryInterf
     private static function make(array $row): Product
     {
         return new Product(
-            LazyUuidFromString::fromBytes($row['uuid']),
+            Uuid::fromString($row['uuid']),
             (bool)$row['is_active'],
             $row['category_name'],
             $row['name'],

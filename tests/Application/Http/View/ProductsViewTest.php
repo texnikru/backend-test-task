@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Raketa\BackendTestTask\Domain\Model\Product;
 use Raketa\BackendTestTask\Domain\Model\ProductCategory;
 use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
-use Ramsey\Uuid\Lazy\LazyUuidFromString;
+use Ramsey\Uuid\Uuid;
 
 class ProductsViewTest extends TestCase
 {
@@ -24,7 +24,7 @@ class ProductsViewTest extends TestCase
     {
         $category = new  ProductCategory(1, 'electronics');
         $product = new Product(
-            LazyUuidFromString::fromBytes('AABCDEFF-1234-5678-90AB-CDEF12345678'),
+            Uuid::fromString('AABCDEFF-1234-5678-90AB-CDEF12345678'),
             true,
             $category->getName(),
             'Test product',

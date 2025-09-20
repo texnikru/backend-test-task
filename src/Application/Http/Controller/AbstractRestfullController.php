@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Raketa\BackendTestTask\Application\Http\Controller;
 
+use Nyholm\Psr7\Stream;
 use Psr\Http\Message\ResponseInterface;
 use Raketa\BackendTestTask\Application\Http\JsonResponse;
 
@@ -17,10 +18,8 @@ readonly abstract class AbstractRestfullController
 
     protected function json(array $data): ResponseInterface
     {
-        $response = new JsonResponse();
-        $response->getBody()->write(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-
-        return $response
-            ->withStatus(200);
+        return (new JsonResponse())
+            ->withStatus(200)
+            ->withBody(Stream::create(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)));
     }
 }

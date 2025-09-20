@@ -1,9 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Raketa\BackendTestTask\Application\Http;
 
+use Nyholm\Psr7\Stream;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -13,11 +14,17 @@ use Psr\Http\Message\StreamInterface;
  */
 final class JsonResponse implements ResponseInterface
 {
+    private int $statusCode;
+    private array $headers = [];
+    private StreamInterface $body;
+
     public function __construct(
         string $contentType = 'application/json; charset=utf-8',
     )
     {
-        $this->withHeader('Content-Type', $contentType);
+        $this->statusCode = 200;
+        $this->headers['Content-Type'] = $contentType;
+        $this->body = Stream::create('');
     }
 
     public function getProtocolVersion(): string
@@ -47,12 +54,15 @@ final class JsonResponse implements ResponseInterface
 
     public function getHeaderLine(string $name): string
     {
-        // TODO: Implement getHeaderLine() method.
+        return $this->headers[$name] ?? '';
     }
 
     public function withHeader(string $name, $value): MessageInterface
     {
-        // TODO: Implement withHeader() method.
+        $new = clone $this;
+        $new->headers[$name] = $value;
+
+        return $new;
     }
 
     public function withAddedHeader(string $name, $value): MessageInterface
@@ -67,22 +77,28 @@ final class JsonResponse implements ResponseInterface
 
     public function getBody(): StreamInterface
     {
-        // TODO: Implement getBody() method.
+        return $this->body;
     }
 
     public function withBody(StreamInterface $body): MessageInterface
     {
-        // TODO: Implement withBody() method.
+        $new = clone $this;
+        $new->body = $body;
+
+        return $new;
     }
 
     public function getStatusCode(): int
     {
-        // TODO: Implement getStatusCode() method.
+        return $this->statusCode;
     }
 
     public function withStatus(int $code, string $reasonPhrase = ''): ResponseInterface
     {
-        // TODO: Implement withStatus() method.
+        $new = clone $this;
+        $new->statusCode = $code;
+
+        return $new;
     }
 
     public function getReasonPhrase(): string
