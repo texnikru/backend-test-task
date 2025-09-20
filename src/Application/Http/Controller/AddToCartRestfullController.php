@@ -8,7 +8,6 @@ use Raketa\BackendTestTask\Application\Http\View\CartView;
 use Raketa\BackendTestTask\Domain\CartManager;
 use Raketa\BackendTestTask\Domain\Model\CartItem;
 use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
-use Ramsey\Uuid\Uuid;
 
 readonly class AddToCartRestfullController extends AbstractRestfullController
 {
@@ -40,12 +39,7 @@ readonly class AddToCartRestfullController extends AbstractRestfullController
 
         $newCart = $this->cartManager
             ->getCart()
-            ->addItem(new CartItem(
-                Uuid::uuid4(),
-                $product->getUuid(),
-                $product->getPrice(),
-                $quantity,
-            ));
+            ->addItem(CartItem::ofProduct($product, $quantity));
         $this->cartManager->saveCart($newCart);
 
         return $this->json([

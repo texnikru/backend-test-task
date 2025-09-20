@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Raketa\BackendTestTask\Domain\Model;
 
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 final readonly class CartItem
@@ -34,5 +35,15 @@ final readonly class CartItem
     public function getQuantity(): int
     {
         return $this->quantity;
+    }
+
+    public static function ofProduct(Product $product, int $quantity): static
+    {
+        return new static(
+            Uuid::uuid4(),
+            $product->getUuid(),
+            $product->getPrice(),
+            $quantity,
+        );
     }
 }
