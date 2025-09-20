@@ -4,57 +4,14 @@ declare(strict_types=1);
 
 namespace Raketa\BackendTestTask\Domain\Storage;
 
-use Throwable;
+use Exception;
 
-readonly class ConnectorException implements Throwable
+class ConnectorException extends Exception
 {
-    public function __construct(
-        private string     $message,
-        private ?int       $code = null,
-        private ?Throwable $previous = null,
-    )
-    {
-    }
-
-    public function getMessage(): string
-    {
-        return $this->message;
-    }
-
-    public function getCode(): int
-    {
-        return $this->code;
-    }
-
-    public function getFile(): string
-    {
-        return $this->previous->getFile(); // а предыдущее есть?
-    }
-
-    public function getLine(): int
-    {
-        return $this->previous->getLine();
-    }
-
-    public function getTrace(): array
-    {
-        return $this->previous->getTrace();
-    }
-
-    public function getTraceAsString(): string
-    {
-        return $this->previous->getTraceAsString();
-    }
-
-    public function getPrevious(): ?Throwable
-    {
-        return $this->previous;
-    }
-
     public function __toString(): string
     {
         return sprintf(
-            '[%s] %s in %s on line %d',
+            '[%s] %s in %s on line %s',
             $this->getCode(),
             $this->getMessage(),
             $this->getFile(),
