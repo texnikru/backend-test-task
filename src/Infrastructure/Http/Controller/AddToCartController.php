@@ -6,15 +6,15 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Raketa\BackendTestTask\Domain\CartManager;
 use Raketa\BackendTestTask\Domain\Model\CartItem;
+use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
 use Raketa\BackendTestTask\Infrastructure\Http\JsonResponse;
 use Raketa\BackendTestTask\Infrastructure\Http\View\CartView;
-use Raketa\BackendTestTask\Infrastructure\Repository\ProductRepository;
 use Ramsey\Uuid\Uuid;
 
 readonly class AddToCartController
 {
     public function __construct(
-        private ProductRepository $productRepository,
+        private ProductRepositoryInterface $productRepository,
         private CartView $cartView,
         private CartManager $cartManager,
     ) {

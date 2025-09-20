@@ -5,12 +5,12 @@ declare(strict_types = 1);
 namespace Raketa\BackendTestTask\Infrastructure\Http\View;
 
 use Raketa\BackendTestTask\Domain\Model\Cart;
-use Raketa\BackendTestTask\Infrastructure\Repository\ProductRepository;
+use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
 
 readonly class CartView
 {
     public function __construct(
-        private ProductRepository $productRepository
+        private ProductRepositoryInterface $productRepository
     ) {
     }
 

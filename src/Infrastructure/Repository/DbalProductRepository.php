@@ -5,12 +5,12 @@ declare(strict_types = 1);
 namespace Raketa\BackendTestTask\Infrastructure\Repository;
 
 use Doctrine\DBAL\Connection;
+use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
 use Raketa\BackendTestTask\Infrastructure\Repository\Entity\Product;
 use Ramsey\Uuid\Lazy\LazyUuidFromString;
 use Ramsey\Uuid\UuidInterface;
 
-// интерфейс, этот обозвать DbalProductRepository
-readonly class ProductRepository
+readonly class DbalProductRepository implements ProductRepositoryInterface
 {
     public function __construct(
         private Connection $connection,

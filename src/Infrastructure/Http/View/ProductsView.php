@@ -2,13 +2,13 @@
 
 namespace Raketa\BackendTestTask\Infrastructure\Http\View;
 
+use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
 use Raketa\BackendTestTask\Infrastructure\Repository\Entity\Product;
-use Raketa\BackendTestTask\Infrastructure\Repository\ProductRepository;
 
 readonly class ProductsView
 {
     public function __construct(
-        private ProductRepository $productRepository
+        private ProductRepositoryInterface $productRepository
     ) {
     }
 
