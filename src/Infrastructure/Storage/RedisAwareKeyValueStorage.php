@@ -37,10 +37,10 @@ readonly class RedisAwareKeyValueStorage implements KeyValueStorageInterface
     /**
      * @inheritDoc
      */
-    public function set(string $key, string $value): void
+    public function set(string $key, string $value, int $ttl): void
     {
         try {
-            $this->getRedis()->setex($key, 24 * 60 * 60, $value);
+            $this->getRedis()->setex($key, $ttl, $value);
         } catch (RedisException $e) {
             $connectorException = new ConnectorException('Connector error', $e->getCode(), $e);
             $this->logger->error($connectorException->getMessage(), ['exception' => $e]);

@@ -12,5 +12,5 @@ interface KeyValueStorageInterface
     /**
      * @throws ConnectorException
      */
-    public function set(string $key, string $value): void;
+    public function set(string $key, string $value, int $ttl): void;
 }

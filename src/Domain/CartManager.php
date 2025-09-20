@@ -12,6 +12,8 @@ use Raketa\BackendTestTask\Domain\Storage\KeyValueStorageInterface;
 
 readonly class CartManager
 {
+    private const CART_TTL_SECONDS = 24 * 60 * 60;
+
     public function __construct(
         private KeyValueStorageInterface $storage,
         private LoggerInterface          $logger,
@@ -23,7 +25,7 @@ readonly class CartManager
     {
         try {
             $serializedCart = serialize($cart);
-            $this->storage->set($serializedCart, $session->getSessionId());
+            $this->storage->set($serializedCart, $session->getSessionId(), self::CART_TTL_SECONDS);
         } catch (Exception $e) {
             $this->logger->error('Error ' . $e->getMessage());
         }
