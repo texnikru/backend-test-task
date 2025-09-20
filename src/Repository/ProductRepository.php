@@ -6,6 +6,8 @@ namespace Raketa\BackendTestTask\Repository;
 
 use Doctrine\DBAL\Connection;
 use Raketa\BackendTestTask\Repository\Entity\Product;
+use Ramsey\Uuid\Lazy\LazyUuidFromString;
+use Ramsey\Uuid\UuidInterface;
 
 // интерфейс, этот обозвать DbalProductRepository
 readonly class ProductRepository
@@ -16,7 +18,7 @@ readonly class ProductRepository
     {
     }
 
-    public function getByUuid(string $uuid): ?Product
+    public function getByUuid(UuidInterface $uuid): ?Product
     {
         $row = $this->connection->fetchOne(
             "SELECT id, uuid, is_active, category, name, description, thumbnail, price
@@ -49,8 +51,7 @@ readonly class ProductRepository
     private static function make(array $row): Product
     {
         return new Product(
-            (int)$row['id'],
-            $row['uuid'],
+            LazyUuidFromString::fromBytes($row['uuid']),
             (bool)$row['is_active'],
             $row['category'],
             $row['name'],

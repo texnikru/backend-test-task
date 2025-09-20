@@ -4,17 +4,19 @@ declare(strict_types = 1);
 
 namespace Raketa\BackendTestTask\Domain;
 
+use Ramsey\Uuid\UuidInterface;
+
 final class Cart
 {
     public function __construct(
-        readonly private string $uuid,
+        readonly private UuidInterface $uuid,
         readonly private Customer $customer,
         readonly private string $paymentMethod,
         private array $items,
     ) {
     }
 
-    public function getUuid(): string
+    public function getUuid(): UuidInterface
     {
         return $this->uuid;
     }

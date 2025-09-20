@@ -4,22 +4,24 @@ declare(strict_types = 1);
 
 namespace Raketa\BackendTestTask\Domain;
 
+use Ramsey\Uuid\UuidInterface;
+
 final readonly class CartItem
 {
     public function __construct(
-        private string $uuid,
-        private string $productUuid,
-        private float  $price,
-        private int    $quantity,
+        private UuidInterface $uuid,
+        private UuidInterface $productUuid,
+        private float         $price,
+        private int           $quantity,
     ) {
     }
 
-    public function getUuid(): string // методы не используются, допустимо в задании?
+    public function getUuid(): UuidInterface // методы не используются, допустимо в задании?
     {
         return $this->uuid;
     }
 
-    public function getProductUuid(): string
+    public function getProductUuid(): UuidInterface
     {
         return $this->productUuid;
     }

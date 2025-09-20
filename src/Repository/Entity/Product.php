@@ -1,33 +1,31 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Raketa\BackendTestTask\Repository\Entity;
+
+use Ramsey\Uuid\UuidInterface;
 
 readonly class Product
 {
     public function __construct(
-        private int $id,
-        private string $uuid, // Зачем 2 идентификатора товара?
-        private bool $isActive,
-        private string $category,
-        private string $name,
-        private string $description,
-        private string $thumbnail,
-        private float $price,
-    ) {
-    }
-
-    public function getId(): int
+        private UuidInterface $uuid,
+        private bool          $isActive,
+        private string        $category,
+        private string        $name,
+        private string        $description,
+        private string        $thumbnail,
+        private float         $price,
+    )
     {
-        return $this->id;
     }
 
-    public function getUuid(): string
+    public function getUuid(): UuidInterface
     {
         return $this->uuid;
     }
 
+    // не используется
     public function isActive(): bool
     {
         return $this->isActive;

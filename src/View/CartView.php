@@ -44,7 +44,6 @@ readonly class CartView
                 'total' => $total, // Сумма строки путается с ценой всей корзины
                 'quantity' => $item->getQuantity(),
                 'product' => [
-                    'id' => $product->getId(),
                     'uuid' => $product->getUuid(),
                     'name' => $product->getName(),
                     'thumbnail' => $product->getThumbnail(),

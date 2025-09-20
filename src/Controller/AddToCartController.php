@@ -31,7 +31,7 @@ readonly class AddToCartController
         $cart = $this->cartManager->getCart();
         // Строку добавили, а кто сохранил?
         $cart->addItem(new CartItem(
-            Uuid::uuid4()->toString(),
+            Uuid::uuid4(),
             $product->getUuid(),
             $product->getPrice(),
             $rawRequest['quantity'],
