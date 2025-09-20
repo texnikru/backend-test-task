@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Raketa\BackendTestTask\Application\Http\Controller;
 
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Raketa\BackendTestTask\Application\Http\View\CartView;
 use Raketa\BackendTestTask\Domain\CartManager;
@@ -18,7 +17,7 @@ readonly class GetCartRestfullController extends AbstractRestfullController
     {
     }
 
-    public function get(RequestInterface $request): ResponseInterface
+    public function get(): ResponseInterface
     {
         $cart = $this->cartManager->getCart();
 
