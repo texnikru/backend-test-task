@@ -7,6 +7,7 @@ namespace Raketa\BackendTestTask\Infrastructure\Repository;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Raketa\BackendTestTask\Domain\Model\Product;
+use Raketa\BackendTestTask\Domain\Model\ProductCategory;
 use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
 use Ramsey\Uuid\Lazy\LazyUuidFromString;
 use Ramsey\Uuid\UuidInterface;
@@ -25,7 +26,7 @@ readonly class DbalProductRepository implements ProductRepositoryInterface
     public function getByUuids(array $uuids): array
     {
         $rows = $this->connection->fetchAllAssociative(
-            "SELECT id, uuid, is_active, category, name, description, thumbnail, price
+            "SELECT id, uuid, is_active, category_name, name, description, thumbnail, price
                     FROM products
                     WHERE uuid IN (:uuids)",
             ['uuids' => array_map(static fn(UuidInterface $i): string => $i->toString(), $uuids)],
@@ -41,13 +42,13 @@ readonly class DbalProductRepository implements ProductRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getByCategory(string $category): array
+    public function getByCategory(ProductCategory $category): array
     {
         $rows = $this->connection->fetchAllAssociative(
-            "SELECT id, uuid, is_active, category, name, description, thumbnail, price
+            "SELECT id, uuid, is_active, category_name, name, description, thumbnail, price
                         FROM products
-                        WHERE is_active = 1 AND category = :category",
-            ['category' => $category],
+                        WHERE is_active = 1 AND category_id = :categoryId",
+            ['categoryId' => $category->getId()],
         );
 
         return array_map(
@@ -61,7 +62,7 @@ readonly class DbalProductRepository implements ProductRepositoryInterface
         return new Product(
             LazyUuidFromString::fromBytes($row['uuid']),
             (bool)$row['is_active'],
-            $row['category'],
+            $row['category_name'],
             $row['name'],
             $row['description'],
             $row['thumbnail'],

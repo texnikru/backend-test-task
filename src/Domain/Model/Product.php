@@ -11,7 +11,7 @@ readonly class Product
     public function __construct(
         private UuidInterface $uuid,
         private bool          $isActive,
-        private string        $category,
+        private string        $categoryName,
         private string        $name,
         private string        $description,
         private string        $thumbnail,
@@ -31,9 +31,9 @@ readonly class Product
         return $this->isActive;
     }
 
-    public function getCategory(): string
+    public function getCategoryName(): string
     {
-        return $this->category;
+        return $this->categoryName;
     }
 
     public function getName(): string

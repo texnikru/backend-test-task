@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Raketa\BackendTestTask\Application\Http\View;
 
 use Raketa\BackendTestTask\Domain\Model\Product;
+use Raketa\BackendTestTask\Domain\Model\ProductCategory;
 use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
 
 readonly class ProductsView
@@ -15,15 +16,14 @@ readonly class ProductsView
     }
 
     /**
-     * @param string $category
      * @return array{uuid: string, category: string, description: string, thumbnail: string, price: float}[]
      */
-    public function toArray(string $category): array
+    public function toArray(ProductCategory $category): array
     {
         return array_map(
             fn (Product $product) => [
                 'uuid' => $product->getUuid(),
-                'category' => $product->getCategory(),
+                'category' => $product->getCategoryName(),
                 'description' => $product->getDescription(),
                 'thumbnail' => $product->getThumbnail(),
                 'price' => $product->getPrice(),
