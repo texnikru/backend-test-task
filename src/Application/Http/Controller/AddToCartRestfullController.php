@@ -42,8 +42,10 @@ readonly class AddToCartRestfullController extends AbstractRestfullController
         }
 
         $product = array_shift($products);
-        $newCart = $this->cartManager
-            ->getCart($customerSession = $this->sessionManager->getSession())
+        $previousCart = $this->cartManager->getCart($customerSession = $this->sessionManager->getSession())
+            ?? $this->cartManager->emptyCart($customerSession);
+
+        $newCart = $previousCart
             ->addItem(CartItem::ofProduct($product, $quantity));
         $this->cartManager->saveCart($newCart, $customerSession);
 

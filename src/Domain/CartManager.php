@@ -8,15 +8,18 @@ use Exception;
 use Psr\Log\LoggerInterface;
 use Raketa\BackendTestTask\Domain\Model\Cart;
 use Raketa\BackendTestTask\Domain\Model\CustomerSession;
+use Raketa\BackendTestTask\Domain\Repository\CustomerRepositoryInterface;
 use Raketa\BackendTestTask\Domain\Storage\KeyValueStorageInterface;
+use Ramsey\Uuid\Uuid;
 
 readonly class CartManager
 {
     private const CART_TTL_SECONDS = 24 * 60 * 60;
 
     public function __construct(
-        private KeyValueStorageInterface $storage,
-        private LoggerInterface          $logger,
+        private CustomerRepositoryInterface $customerRepository,
+        private KeyValueStorageInterface    $storage,
+        private LoggerInterface             $logger,
     )
     {
     }
@@ -43,5 +46,15 @@ readonly class CartManager
         }
 
         return null;
+    }
+
+    public function emptyCart(CustomerSession $session): Cart
+    {
+        return new Cart(
+            Uuid::uuid4(),
+            $this->customerRepository->getBySession($session),
+            'defaultPaymentMethod',
+            [],
+        );
     }
 }
