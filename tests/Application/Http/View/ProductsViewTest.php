@@ -5,8 +5,9 @@ namespace Raketa\BackendTestTask\Application\Http\View;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Raketa\BackendTestTask\Domain\Model\Product;
+use Raketa\BackendTestTask\Domain\Model\ProductCategory;
 use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
-use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Lazy\LazyUuidFromString;
 
 class ProductsViewTest extends TestCase
 {
@@ -21,36 +22,32 @@ class ProductsViewTest extends TestCase
 
     public function testToArray(): void
     {
-        $product = $this->mockProduct();
+        $category = new  ProductCategory(1, 'electronics');
+        $product = new Product(
+            LazyUuidFromString::fromBytes('AABCDEFF-1234-5678-90AB-CDEF12345678'),
+            true,
+            $category->getName(),
+            'Test product',
+            null,
+            'thumbnail.jpg',
+            100.500,
+        );
 
         $this->productRepository
             ->expects($this->once())
             ->method('getByCategory')
-            ->with($categoryName = 'electronics')
+            ->with($category)
             ->willReturn([$product]);
 
-        $result = $this->productsView->toArray($categoryName);
+        $result = $this->productsView->toArray($category);
 
         $this->assertCount(1, $result);
         $this->assertEquals([
             'uuid' => $product->getUuid()->toString(),
-            'category' => 'electronics',
-            'description' => 'Test product',
+            'category' => $category->getName(),
+            'description' => null,
             'thumbnail' => 'thumbnail.jpg',
-            'price' => 99.99,
+            'price' => 100.5,
         ], $result[0]);
-    }
-
-    private function mockProduct(): Product
-    {
-        $uuid = Uuid::uuid4();
-        $product = $this->createMock(Product::class);
-        $product->method('getUuid')->willReturn($uuid);
-        $product->method('getCategory')->willReturn('electronics');
-        $product->method('getDescription')->willReturn('Test product');
-        $product->method('getThumbnail')->willReturn('thumbnail.jpg');
-        $product->method('getPrice')->willReturn(99.99);
-
-        return $product;
     }
 }

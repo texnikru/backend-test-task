@@ -1,0 +1,8 @@
+services:
+  com.raketa.php:
+    build:
+      context: ./php
+    environment:
+      PHP_IDE_CONFIG: "serverName=raketa"
+    volumes:
+      - ../:/app

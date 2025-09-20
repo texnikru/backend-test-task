@@ -22,7 +22,7 @@ readonly class ProductsView
     {
         return array_map(
             fn (Product $product) => [
-                'uuid' => $product->getUuid(),
+                'uuid' => $product->getUuid()->toString(),
                 'category' => $product->getCategoryName(),
                 'description' => $product->getDescription(),
                 'thumbnail' => $product->getThumbnail(),
