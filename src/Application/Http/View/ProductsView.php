@@ -22,7 +22,6 @@ readonly class ProductsView
                 'thumbnail' => $product->getThumbnail(),
                 'price' => $product->getPrice(),
             ],
-            // Дёргаем реп по-штучно, лучше один раз прийти со списком. Скорее-всего категорий мало.
             $this->productRepository->getByCategory($category)
         );
     }
