@@ -64,6 +64,8 @@ readonly class RedisAwareKeyValueStorage implements KeyValueStorageInterface
             return $this->redis;
         }
 
-        throw new ConnectorException('Redis connection lost');
+        $exception = new ConnectorException('Redis connection lost');
+        $this->logger->error($exception->getMessage(), ['exception' => $exception]);
+        throw $exception;
     }
 }
