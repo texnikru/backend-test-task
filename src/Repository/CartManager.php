@@ -7,42 +7,44 @@ namespace Raketa\BackendTestTask\Repository;
 use Exception;
 use Psr\Log\LoggerInterface;
 use Raketa\BackendTestTask\Domain\Cart;
-use Raketa\BackendTestTask\Infrastructure\Connector;
-use Raketa\BackendTestTask\Infrastructure\ConnectorFactory;
+use Raketa\BackendTestTask\Infrastructure\StorageInterface;
 
 readonly class CartManager
 {
     public function __construct(
-        private Connector       $connector,
-        private LoggerInterface $logger,
+        private StorageInterface $storage,
+        private LoggerInterface  $logger,
     )
     {
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function saveCart(Cart $cart)
+    public function saveCart(Cart $cart): void
     {
         try {
-            $this->connector->set($cart, session_id()); // сессию принести в менеджере
+            $serializedCart = serialize($cart);
+            $this->storage->set($serializedCart, $this->getSession());
         } catch (Exception $e) {
-            $this->logger->error('Error'); // Ошибка ничего не поясняет, исключение не используется для разъяснения
+            $this->logger->error('Error ' . $e->getMessage());
         }
     }
 
-    /**
-     * @return ?Cart
-     */
-    public function getCart()
+    public function getCart(): ?Cart
     {
         try {
-            // не забота менеджера знать о сессиях
-            return $this->connector->get(session_id()); // сессию принести в менеджере
+            $serializedCart = $this->storage->get($this->getSession());
+            $cart = unserialize($serializedCart);
+
+            return $cart;
         } catch (Exception $e) {
-            $this->logger->error('Error'); // Ошибка ничего не поясняет
+            $this->logger->error('Error ' . $e->getMessage());
         }
 
-        return new Cart(session_id(), []); // сессию принести в менеджере
+        return null;
+    }
+
+    // сессию принести в менеджере, пока проблему вынес
+    private function getSession(): string
+    {
+        return session_id();
     }
 }
