@@ -9,7 +9,7 @@ use RedisException;
 
 class ConnectorFactory
 {
-    public static function create(
+    public static function buildRedisStorage(
         string $host,
         int    $port,
         string $password,
@@ -22,6 +22,6 @@ class ConnectorFactory
         $redis->auth($password);
         $redis->select($dbindex);
 
-        return new Connector($redis);
+        return new RedisAwareStorage($redis);
     }
 }
