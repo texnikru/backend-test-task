@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Raketa\BackendTestTask\Infrastructure\Http\Controller;
+namespace Raketa\BackendTestTask\Application\Http\Controller;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Raketa\BackendTestTask\Application\Http\View\CartView;
 use Raketa\BackendTestTask\Domain\CartManager;
-use Raketa\BackendTestTask\Infrastructure\Http\View\CartView;
 
 readonly class GetCartRestfullController extends AbstractRestfullController
 {

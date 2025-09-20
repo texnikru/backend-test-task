@@ -1,13 +1,13 @@
 <?php
 
-namespace Raketa\BackendTestTask\Infrastructure\Http\Controller;
+namespace Raketa\BackendTestTask\Application\Http\Controller;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Raketa\BackendTestTask\Application\Http\View\CartView;
 use Raketa\BackendTestTask\Domain\CartManager;
 use Raketa\BackendTestTask\Domain\Model\CartItem;
 use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
-use Raketa\BackendTestTask\Infrastructure\Http\View\CartView;
 use Ramsey\Uuid\Uuid;
 
 readonly class AddToCartRestfullController extends AbstractRestfullController

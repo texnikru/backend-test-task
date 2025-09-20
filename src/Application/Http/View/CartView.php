@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Raketa\BackendTestTask\Infrastructure\Http\View;
+namespace Raketa\BackendTestTask\Application\Http\View;
 
 use Raketa\BackendTestTask\Domain\Model\Cart;
 use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;

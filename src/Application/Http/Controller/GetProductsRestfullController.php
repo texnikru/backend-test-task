@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Raketa\BackendTestTask\Infrastructure\Http\Controller;
+namespace Raketa\BackendTestTask\Application\Http\Controller;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Raketa\BackendTestTask\Infrastructure\Http\View\ProductsView;
+use Raketa\BackendTestTask\Application\Http\View\ProductsView;
 
 readonly class GetProductsRestfullController extends AbstractRestfullController
 {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Raketa\BackendTestTask\Infrastructure\Http\Controller;
+namespace Raketa\BackendTestTask\Application\Http\Controller;
 
 use Psr\Http\Message\ResponseInterface;
-use Raketa\BackendTestTask\Infrastructure\Http\JsonResponse;
+use Raketa\BackendTestTask\Application\Http\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

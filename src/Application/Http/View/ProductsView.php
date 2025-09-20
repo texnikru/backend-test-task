@@ -1,6 +1,6 @@
 <?php
 
-namespace Raketa\BackendTestTask\Infrastructure\Http\View;
+namespace Raketa\BackendTestTask\Application\Http\View;
 
 use Raketa\BackendTestTask\Domain\Model\Product;
 use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
