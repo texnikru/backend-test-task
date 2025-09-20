@@ -31,6 +31,7 @@
 3. src/Repository/CartManager.php#L35 Логируется только строка "Error" без детальной информации что за проблема.
 4. src/Repository/CartManager.php#L33 Знает о `session_id()`, должен использовать менеджер сессий, который скажет какой у сессии id
 5. src/Repository/CartManager.php#L42 Метод `getCart` говорит, что если корзины нет, то возвращать `null`, а не пустую корзину
+5. src/Repository/CartManager.php#L50 Вероятно, что id сессии передаваемое в uuid корзины ошибка. Вероятно это уникальный идентификатор корзины. Учитывая, что корзина храниться по ключу сессии, то вероятно uuid избыточно.
 6. src/Infrastructure/ConnectorFacade.php#L33 `ConnectorFacade.build` фактически делает ping в конструкторе, хотя это для поддержания уже установленного соединеня. На мороз.
 
 #### Repository/ProductRepository (переименован в  DbalProductRepository)
