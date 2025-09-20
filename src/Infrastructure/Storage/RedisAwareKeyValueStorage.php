@@ -23,7 +23,7 @@ readonly class RedisAwareKeyValueStorage implements KeyValueStorageInterface
     public function get(string $key): string
     {
         try {
-            return unserialize($this->redis->get($key));
+            return unserialize($this->getRedis()->get($key));
         } catch (RedisException $e) {
             throw new ConnectorException('Connector error', $e->getCode(), $e);
         }
@@ -35,9 +35,27 @@ readonly class RedisAwareKeyValueStorage implements KeyValueStorageInterface
     public function set(string $key, string $value): void
     {
         try {
-            $this->redis->setex($key, 24 * 60 * 60, $value);
+            $this->getRedis()->setex($key, 24 * 60 * 60, $value);
         } catch (RedisException $e) {
             throw new ConnectorException('Connector error', $e->getCode(), $e);
         }
+    }
+
+    /**
+     * @throws ConnectorException
+     */
+    private function getRedis(): Redis
+    {
+        // Проверка, что соединение живое
+        if ($this->redis->isConnected()) {
+            return $this->redis;
+        }
+
+        // Триггерим reconnect по пингу
+        if ($this->redis->ping('Pong')) {
+            return $this->redis;
+        }
+
+        throw new ConnectorException('Redis connection lost');
     }
 }

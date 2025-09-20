@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Raketa\BackendTestTask\Domain\Storage;
 
@@ -10,9 +10,11 @@ readonly class ConnectorException implements Throwable
 {
     public function __construct(
         private string     $message,
-        private int        $code,
-        private ?Throwable $previous,
-    ) { }
+        private ?int       $code = null,
+        private ?Throwable $previous = null,
+    )
+    {
+    }
 
     public function getMessage(): string
     {
