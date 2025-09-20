@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Raketa\BackendTestTask\Infrastructure;
+namespace Raketa\BackendTestTask\Infrastructure\Storage;
 
+use Raketa\BackendTestTask\Domain\Storage\ConnectorException;
+use Raketa\BackendTestTask\Domain\Storage\StorageInterface;
 use Redis;
 use RedisException;
 

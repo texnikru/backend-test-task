@@ -1,6 +1,6 @@
 <?php
 
-namespace Raketa\BackendTestTask\Infrastructure;
+namespace Raketa\BackendTestTask\Domain\Storage;
 
 interface StorageInterface
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Raketa\BackendTestTask\Repository;
+namespace Raketa\BackendTestTask\Domain;
 
 use Exception;
 use Psr\Log\LoggerInterface;
-use Raketa\BackendTestTask\Domain\Cart;
-use Raketa\BackendTestTask\Infrastructure\StorageInterface;
+use Raketa\BackendTestTask\Domain\Model\Cart;
+use Raketa\BackendTestTask\Domain\Storage\StorageInterface;
 
 readonly class CartManager
 {

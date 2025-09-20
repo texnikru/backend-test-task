@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Raketa\BackendTestTask\Domain;
+namespace Raketa\BackendTestTask\Domain\Model;
 
 use Ramsey\Uuid\UuidInterface;
 

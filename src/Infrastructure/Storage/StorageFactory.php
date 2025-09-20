@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Raketa\BackendTestTask\Infrastructure;
+namespace Raketa\BackendTestTask\Infrastructure\Storage;
 
 use Redis;
 

@@ -2,10 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace Raketa\BackendTestTask\Repository;
+namespace Raketa\BackendTestTask\Infrastructure\Repository;
 
 use Doctrine\DBAL\Connection;
-use Raketa\BackendTestTask\Repository\Entity\Product;
+use Raketa\BackendTestTask\Infrastructure\Repository\Entity\Product;
 use Ramsey\Uuid\Lazy\LazyUuidFromString;
 use Ramsey\Uuid\UuidInterface;
 

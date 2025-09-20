@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Raketa\BackendTestTask\Infrastructure;
+namespace Raketa\BackendTestTask\Domain\Storage;
 
 use Throwable;
 
