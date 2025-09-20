@@ -2,7 +2,7 @@
 
 namespace Raketa\BackendTestTask\Domain\Storage;
 
-interface StorageInterface
+interface KeyValueStorageInterface
 {
     public function get(string $key): string;
 

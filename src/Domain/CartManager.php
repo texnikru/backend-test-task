@@ -7,13 +7,13 @@ namespace Raketa\BackendTestTask\Domain;
 use Exception;
 use Psr\Log\LoggerInterface;
 use Raketa\BackendTestTask\Domain\Model\Cart;
-use Raketa\BackendTestTask\Domain\Storage\StorageInterface;
+use Raketa\BackendTestTask\Domain\Storage\KeyValueStorageInterface;
 
 readonly class CartManager
 {
     public function __construct(
-        private StorageInterface $storage,
-        private LoggerInterface  $logger,
+        private KeyValueStorageInterface $storage,
+        private LoggerInterface          $logger,
     )
     {
     }

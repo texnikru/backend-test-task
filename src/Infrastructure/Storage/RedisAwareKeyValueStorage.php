@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Raketa\BackendTestTask\Infrastructure\Storage;
 
 use Raketa\BackendTestTask\Domain\Storage\ConnectorException;
-use Raketa\BackendTestTask\Domain\Storage\StorageInterface;
+use Raketa\BackendTestTask\Domain\Storage\KeyValueStorageInterface;
 use Redis;
 use RedisException;
 
-readonly class RedisAwareStorage implements StorageInterface
+readonly class RedisAwareKeyValueStorage implements KeyValueStorageInterface
 {
     public function __construct(
         private Redis $redis,
