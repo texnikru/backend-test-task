@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Raketa\BackendTestTask\Application\Http\View;
 
@@ -11,9 +11,19 @@ readonly class CartView
 {
     public function __construct(
         private ProductRepositoryInterface $productRepository
-    ) {
+    )
+    {
     }
 
+    /**
+     * @return array{
+     *     uuid: string,
+     *     customer: array{id: int, name: string, email: string},
+     *     payment_method: string,
+     *     items: array{uuid: string, price: float, total: float, quantity: int, product: array{uuid: string, name: string, thumbnail: string, price: float}}[],
+     *     total: float
+     * }
+     */
     public function toArray(Cart $cart): array
     {
         $data = [
@@ -24,12 +34,15 @@ readonly class CartView
                 'email' => $cart->getCustomer()->getEmail(),
             ],
             'payment_method' => $cart->getPaymentMethod(),
+            'items' => [],
         ];
 
-        $total = 0;
-        $data['items'] = []; // Можно пустой массив задать в структуре выше
+        $totalOfCart = 0;
+
         foreach ($cart->getItems() as $item) {
-            $total += $item->getPrice() * $item->getQuantity();
+            $totalOfRow = $item->getPrice() * $item->getQuantity();
+            $totalOfCart += $totalOfRow;
+
             // Плохо ходить за товаром по-штучно. Нужно обращаться со списком товаров
             // А если товара нет? Но такого быть не может?!
             $product = $this->productRepository->getByUuid($item->getProductUuid());
@@ -37,7 +50,7 @@ readonly class CartView
             $data['items'][] = [
                 'uuid' => $item->getUuid(),
                 'price' => $item->getPrice(),
-                'total' => $total, // Сумма строки путается с ценой всей корзины
+                'total' => $totalOfRow,
                 'quantity' => $item->getQuantity(),
                 'product' => [
                     'uuid' => $product->getUuid(),
@@ -48,7 +61,7 @@ readonly class CartView
             ];
         }
 
-        $data['total'] = $total;
+        $data['total'] = $totalOfCart;
 
         return $data;
     }
