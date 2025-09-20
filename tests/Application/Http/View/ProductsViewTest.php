@@ -45,6 +45,7 @@ class ProductsViewTest extends TestCase
         $this->assertEquals([
             'uuid' => $product->getUuid()->toString(),
             'category' => $category->getName(),
+            'name' => $product->getName(),
             'description' => null,
             'thumbnail' => 'thumbnail.jpg',
             'price' => 100.5,

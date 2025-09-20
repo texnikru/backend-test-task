@@ -24,6 +24,7 @@ readonly class ProductsView
             fn (Product $product) => [
                 'uuid' => $product->getUuid()->toString(),
                 'category' => $product->getCategoryName(),
+                'name' => $product->getName(),
                 'description' => $product->getDescription(),
                 'thumbnail' => $product->getThumbnail(),
                 'price' => $product->getPrice(),
