@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Raketa\BackendTestTask\Application\Http\View;
 
 use Raketa\BackendTestTask\Domain\Model\Product;
