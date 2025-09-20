@@ -14,6 +14,10 @@ readonly class ProductsView
     ) {
     }
 
+    /**
+     * @param string $category
+     * @return array{uuid: string, category: string, description: string, thumbnail: string, price: float}[]
+     */
     public function toArray(string $category): array
     {
         return array_map(
