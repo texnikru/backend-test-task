@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Raketa\BackendTestTask\Infrastructure\Storage;
 
+use Psr\Log\LoggerInterface;
 use Raketa\BackendTestTask\Domain\Storage\ConnectorException;
 use Raketa\BackendTestTask\Domain\Storage\KeyValueStorageInterface;
 use Redis;
@@ -12,7 +13,8 @@ use RedisException;
 readonly class RedisAwareKeyValueStorage implements KeyValueStorageInterface
 {
     public function __construct(
-        private Redis $redis,
+        private Redis           $redis,
+        private LoggerInterface $logger,
     )
     {
     }
@@ -25,7 +27,10 @@ readonly class RedisAwareKeyValueStorage implements KeyValueStorageInterface
         try {
             return unserialize($this->getRedis()->get($key));
         } catch (RedisException $e) {
-            throw new ConnectorException('Connector error', $e->getCode(), $e);
+            $connectorException = new ConnectorException('Connector error', $e->getCode(), $e);
+            $this->logger->error($connectorException->getMessage(), ['exception' => $e]);
+
+            throw $connectorException;
         }
     }
 
@@ -37,7 +42,10 @@ readonly class RedisAwareKeyValueStorage implements KeyValueStorageInterface
         try {
             $this->getRedis()->setex($key, 24 * 60 * 60, $value);
         } catch (RedisException $e) {
-            throw new ConnectorException('Connector error', $e->getCode(), $e);
+            $connectorException = new ConnectorException('Connector error', $e->getCode(), $e);
+            $this->logger->error($connectorException->getMessage(), ['exception' => $e]);
+
+            throw $connectorException;
         }
     }
 
