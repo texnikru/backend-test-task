@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Raketa\BackendTestTask\Infrastructure;
 
 use Redis;
-use RedisException;
 
-class ConnectorFactory
+class StorageFactory
 {
     public static function buildRedisStorage(
         string $host,
