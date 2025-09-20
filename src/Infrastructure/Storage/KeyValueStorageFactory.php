@@ -10,7 +10,7 @@ use Redis;
 use RedisException;
 use RuntimeException;
 
-class ExternalStorageFactory
+class KeyValueStorageFactory
 {
     /**
      * @throws ConnectorException

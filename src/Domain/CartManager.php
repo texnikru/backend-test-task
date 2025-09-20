@@ -7,32 +7,32 @@ namespace Raketa\BackendTestTask\Domain;
 use Exception;
 use Psr\Log\LoggerInterface;
 use Raketa\BackendTestTask\Domain\Model\Cart;
+use Raketa\BackendTestTask\Domain\Model\CustomerSession;
 use Raketa\BackendTestTask\Domain\Storage\KeyValueStorageInterface;
 
 readonly class CartManager
 {
     public function __construct(
-        private SessionManager           $sessionManager,
         private KeyValueStorageInterface $storage,
         private LoggerInterface          $logger,
     )
     {
     }
 
-    public function saveCart(Cart $cart): void
+    public function saveCart(Cart $cart, CustomerSession $session): void
     {
         try {
             $serializedCart = serialize($cart);
-            $this->storage->set($serializedCart, $this->sessionManager->getSessionId());
+            $this->storage->set($serializedCart, $session->getSessionId());
         } catch (Exception $e) {
             $this->logger->error('Error ' . $e->getMessage());
         }
     }
 
-    public function getCart(): ?Cart
+    public function getCart(CustomerSession $session): ?Cart
     {
         try {
-            $serializedCart = $this->storage->get($this->sessionManager->getSessionId());
+            $serializedCart = $this->storage->get($session->getSessionId());
             $cart = unserialize($serializedCart);
 
             return $cart;

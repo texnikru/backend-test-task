@@ -10,6 +10,7 @@ use Raketa\BackendTestTask\Application\Http\View\CartView;
 use Raketa\BackendTestTask\Domain\CartManager;
 use Raketa\BackendTestTask\Domain\Model\CartItem;
 use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
+use Raketa\BackendTestTask\Domain\SessionManager;
 
 readonly class AddToCartRestfullController extends AbstractRestfullController
 {
@@ -17,6 +18,7 @@ readonly class AddToCartRestfullController extends AbstractRestfullController
         private ProductRepositoryInterface $productRepository,
         private CartView                   $cartView,
         private CartManager                $cartManager,
+        private SessionManager             $sessionManager,
     )
     {
     }
@@ -39,11 +41,11 @@ readonly class AddToCartRestfullController extends AbstractRestfullController
             return $this->error("Product not found", 404);
         }
 
-        $product  = array_shift($products);
+        $product = array_shift($products);
         $newCart = $this->cartManager
-            ->getCart()
+            ->getCart($customerSession = $this->sessionManager->getSession())
             ->addItem(CartItem::ofProduct($product, $quantity));
-        $this->cartManager->saveCart($newCart);
+        $this->cartManager->saveCart($newCart, $customerSession);
 
         return $this->json([
             'status' => 'success',

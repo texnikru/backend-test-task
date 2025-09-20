@@ -2,10 +2,12 @@
 
 namespace Raketa\BackendTestTask\Domain;
 
+use Raketa\BackendTestTask\Domain\Model\CustomerSession;
+
 class SessionManager
 {
-    public function getSessionId(): string
+    public function getSession(): CustomerSession
     {
-        return session_id();
+        return new CustomerSession(session_id());
     }
 }
