@@ -7,26 +7,30 @@ use Psr\Http\Message\ResponseInterface;
 use Raketa\BackendTestTask\Domain\CartManager;
 use Raketa\BackendTestTask\Domain\Model\CartItem;
 use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
-use Raketa\BackendTestTask\Infrastructure\Http\JsonResponse;
 use Raketa\BackendTestTask\Infrastructure\Http\View\CartView;
 use Ramsey\Uuid\Uuid;
 
-readonly class AddToCartController
+readonly class AddToCartRestfullController extends AbstractRestfullController
 {
     public function __construct(
         private ProductRepositoryInterface $productRepository,
-        private CartView $cartView,
-        private CartManager $cartManager,
-    ) {
+        private CartView                   $cartView,
+        private CartManager                $cartManager,
+    )
+    {
     }
 
     public function get(RequestInterface $request): ResponseInterface
     {
         $rawRequest = json_decode($request->getBody()->getContents(), true);
-        $product = $this->productRepository->getByUuid($rawRequest['productUuid']);
+        $productUuid = $rawRequest['productUuid'] ?? null;
+
+        $product = $productUuid
+            ? $this->productRepository->getByUuid($productUuid)
+            : null;
 
         if (empty($product)) {
-            throw new \Exception('404 or something');
+            return $this->error(reasonPhrase: "Product not found");
         }
 
         $cart = $this->cartManager->getCart();
@@ -38,19 +42,10 @@ readonly class AddToCartController
             $rawRequest['quantity'],
         ));
 
-        // Лучше быть JsonResponse::withBody
-        $response = new JsonResponse();
-        $response->getBody()->write(
-            json_encode(
-                [
-                    'status' => 'success',
-                    'cart' => $this->cartView->toArray($cart)
-                ],
-                JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
-            )
-        );
+        return $this->json([
+            'status' => 'success',
+            'cart' => $this->cartView->toArray($cart)
+        ]);
 
-        return $response
-            ->withStatus(200);
     }
 }

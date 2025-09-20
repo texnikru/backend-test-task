@@ -1,0 +1,29 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Raketa\BackendTestTask\Infrastructure\Http\Controller;
+
+use Psr\Http\Message\ResponseInterface;
+use Raketa\BackendTestTask\Infrastructure\Http\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+readonly abstract class AbstractRestfullController
+{
+    protected function error(int $httpStatus = 400, string $reasonPhrase = ''): ResponseInterface
+    {
+        return (new JsonResponse())
+            ->withStatus($httpStatus, $reasonPhrase);
+    }
+
+    protected function json(array $data): ResponseInterface
+    {
+        $response = new JsonResponse();
+        $response->getBody()->write(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        return $response
+            ->withStatus(200);
+    }
+}
