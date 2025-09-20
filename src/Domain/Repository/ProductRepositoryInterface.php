@@ -9,7 +9,11 @@ use Ramsey\Uuid\UuidInterface;
 
 interface ProductRepositoryInterface
 {
-    public function getByUuid(UuidInterface $uuid): ?Product;
+    /**
+     * @param UuidInterface[] $uuids
+     * @return Product[]
+     */
+    public function getByUuids(array $uuids): array;
 
     /**
      * @return Product[]

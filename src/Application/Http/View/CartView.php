@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Raketa\BackendTestTask\Application\Http\View;
 
 use Raketa\BackendTestTask\Domain\Model\Cart;
+use Raketa\BackendTestTask\Domain\Model\CartItem;
+use Raketa\BackendTestTask\Domain\Model\Product;
 use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
+use Ramsey\Uuid\UuidInterface;
 
 readonly class CartView
 {
@@ -37,15 +40,14 @@ readonly class CartView
             'items' => [],
         ];
 
+        $productsMap = $this->getProductsMap($cart);
         $totalOfCart = 0;
 
         foreach ($cart->getItems() as $item) {
             $totalOfRow = $item->getPrice() * $item->getQuantity();
             $totalOfCart += $totalOfRow;
 
-            // Плохо ходить за товаром по-штучно. Нужно обращаться со списком товаров
-            // А если товара нет? Но такого быть не может?!
-            $product = $this->productRepository->getByUuid($item->getProductUuid());
+            $product = $productsMap[$item->getProductUuid()->toString()];
 
             $data['items'][] = [
                 'uuid' => $item->getUuid(),
@@ -64,5 +66,23 @@ readonly class CartView
         $data['total'] = $totalOfCart;
 
         return $data;
+    }
+
+    /**
+     * @return array<string, Product>
+     */
+    private function getProductsMap(Cart $cart): array
+    {
+        $products = $this->productRepository->getByUuids(
+            array_map(static fn(CartItem $i): UuidInterface => $i->getProductUuid(), $cart->getItems()),
+        );
+
+        $productsMap = [];
+
+        while ($product = array_shift($products)) {
+            $productsMap[$product->getUuid()->toString()] = $product;
+        }
+
+        return $productsMap;
     }
 }

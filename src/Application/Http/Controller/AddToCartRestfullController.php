@@ -29,14 +29,15 @@ readonly class AddToCartRestfullController extends AbstractRestfullController
             return $this->error(reasonPhrase: "Quantity must be set and greater than 0");
         }
 
-        $product = $productUuid
-            ? $this->productRepository->getByUuid($productUuid)
+        $products = $productUuid
+            ? $this->productRepository->getByUuids($productUuid)
             : null;
 
-        if (empty($product)) {
+        if (empty($products)) {
             return $this->error(reasonPhrase: "Product not found");
         }
 
+        $product  = array_shift($products);
         $newCart = $this->cartManager
             ->getCart()
             ->addItem(CartItem::ofProduct($product, $quantity));

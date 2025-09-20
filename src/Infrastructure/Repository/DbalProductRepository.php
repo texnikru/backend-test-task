@@ -1,9 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Raketa\BackendTestTask\Infrastructure\Repository;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Raketa\BackendTestTask\Domain\Model\Product;
 use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
@@ -21,20 +22,20 @@ readonly class DbalProductRepository implements ProductRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getByUuid(UuidInterface $uuid): ?Product
+    public function getByUuids(array $uuids): array
     {
-        $row = $this->connection->fetchOne(
+        $rows = $this->connection->fetchAllAssociative(
             "SELECT id, uuid, is_active, category, name, description, thumbnail, price
                     FROM products
-                    WHERE uuid = :uuid",
-            ['uuid' => $uuid]
+                    WHERE uuid IN (:uuids)",
+            ['uuids' => array_map(static fn(UuidInterface $i): string => $i->toString(), $uuids)],
+            ['uuids' => ArrayParameterType::STRING],
         );
 
-        if (empty($row)) {
-            return null;
-        }
-
-        return self::make($row);
+        return array_map(
+            static fn(array $row): Product => self::make($row),
+            $rows,
+        );
     }
 
     /**
@@ -42,15 +43,16 @@ readonly class DbalProductRepository implements ProductRepositoryInterface
      */
     public function getByCategory(string $category): array
     {
-        return array_map(
-            static fn (array $row): Product => self::make($row),
-            $this->connection->fetchAllAssociative(
-                // Тут перечислить нужно колонки, одного id будет мало
-                "SELECT id, uuid, is_active, category, name, description, thumbnail, price
+        $rows = $this->connection->fetchAllAssociative(
+            "SELECT id, uuid, is_active, category, name, description, thumbnail, price
                         FROM products
                         WHERE is_active = 1 AND category = :category",
-                ['category' => $category]
-            )
+            ['category' => $category],
+        );
+
+        return array_map(
+            static fn(array $row): Product => self::make($row),
+            $rows,
         );
     }
 
