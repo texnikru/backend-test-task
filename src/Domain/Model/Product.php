@@ -13,7 +13,7 @@ readonly class Product
         private bool          $isActive,
         private string        $categoryName,
         private string        $name,
-        private string        $description,
+        private ?string       $description,
         private string        $thumbnail,
         private float         $price,
     )
@@ -41,7 +41,7 @@ readonly class Product
         return $this->name;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
