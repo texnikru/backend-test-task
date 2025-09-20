@@ -24,6 +24,11 @@ readonly class AddToCartRestfullController extends AbstractRestfullController
     {
         $rawRequest = json_decode($request->getBody()->getContents(), true);
         $productUuid = $rawRequest['productUuid'] ?? null;
+        $quantity = (int)($rawRequest['quantity'] ?? null);
+
+        if ($quantity < 1) {
+            return $this->error(reasonPhrase: "Quantity must be set and greater than 0");
+        }
 
         $product = $productUuid
             ? $this->productRepository->getByUuid($productUuid)
@@ -33,18 +38,19 @@ readonly class AddToCartRestfullController extends AbstractRestfullController
             return $this->error(reasonPhrase: "Product not found");
         }
 
-        $cart = $this->cartManager->getCart();
-        // Строку добавили, а кто сохранил?
-        $cart->addItem(new CartItem(
-            Uuid::uuid4(),
-            $product->getUuid(),
-            $product->getPrice(),
-            $rawRequest['quantity'],
-        ));
+        $newCart = $this->cartManager
+            ->getCart()
+            ->addItem(new CartItem(
+                Uuid::uuid4(),
+                $product->getUuid(),
+                $product->getPrice(),
+                $quantity,
+            ));
+        $this->cartManager->saveCart($newCart);
 
         return $this->json([
             'status' => 'success',
-            'cart' => $this->cartView->toArray($cart)
+            'cart' => $this->cartView->toArray($newCart)
         ]);
 
     }

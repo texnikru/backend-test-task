@@ -1,19 +1,20 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Raketa\BackendTestTask\Domain\Model;
 
 use Ramsey\Uuid\UuidInterface;
 
-final class Cart
+final readonly class Cart
 {
     public function __construct(
-        readonly private UuidInterface $uuid,
-        readonly private Customer $customer,
-        readonly private string $paymentMethod,
-        private array $items,
-    ) {
+        private UuidInterface $uuid,
+        private Customer      $customer,
+        private string        $paymentMethod,
+        private array         $items,
+    )
+    {
     }
 
     public function getUuid(): UuidInterface
@@ -36,8 +37,13 @@ final class Cart
         return $this->items;
     }
 
-    public function addItem(CartItem $item): void
+    public function addItem(CartItem $item): static
     {
-        $this->items[] = $item;
+        return new static(
+            $this->uuid,
+            $this->customer,
+            $this->paymentMethod,
+            array_merge($this->items, [$item]), // ключи не важны, просто мёржим
+        );
     }
 }
