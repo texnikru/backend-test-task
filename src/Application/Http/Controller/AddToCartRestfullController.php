@@ -26,7 +26,7 @@ readonly class AddToCartRestfullController extends AbstractRestfullController
         $quantity = (int)($rawRequest['quantity'] ?? null);
 
         if ($quantity < 1) {
-            return $this->error(reasonPhrase: "Quantity must be set and greater than 0");
+            return $this->error("Quantity must be set and greater than 0");
         }
 
         $products = $productUuid
@@ -34,7 +34,7 @@ readonly class AddToCartRestfullController extends AbstractRestfullController
             : null;
 
         if (empty($products)) {
-            return $this->error(reasonPhrase: "Product not found");
+            return $this->error("Product not found", 404);
         }
 
         $product  = array_shift($products);

@@ -22,7 +22,7 @@ readonly class GetProductsRestfullController extends AbstractRestfullController
         $category = $rawRequest['category'] ?? null;
 
         if (empty($category)) {
-            return $this->error(404, 'Category not found');
+            return $this->error('Category not found', 404);
         }
 
         return $this->json($this->productsVew->toArray($category));

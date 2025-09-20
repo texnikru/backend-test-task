@@ -22,7 +22,7 @@ readonly class GetCartRestfullController extends AbstractRestfullController
         $cart = $this->cartManager->getCart();
 
         if (!$cart) {
-            return $this->error(404, 'Cart not found');
+            return $this->error('Cart not found', 404);
         }
 
         return $this->json($this->cartView->toArray($cart));

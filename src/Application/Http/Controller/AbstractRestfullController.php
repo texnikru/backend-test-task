@@ -9,7 +9,7 @@ use Raketa\BackendTestTask\Application\Http\JsonResponse;
 
 readonly abstract class AbstractRestfullController
 {
-    protected function error(int $httpStatus = 400, string $reasonPhrase = ''): ResponseInterface
+    protected function error(string $reasonPhrase, int $httpStatus = 400): ResponseInterface
     {
         return (new JsonResponse())
             ->withStatus($httpStatus, $reasonPhrase);
